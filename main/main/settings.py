@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home.apps.HomeConfig',
-    'client.apps.ClientConfig',
+    'django.contrib.sites',
+    'home',
+    'client',
     'manager.apps.ManagerConfig',
     'account.apps.AccountConfig',
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
