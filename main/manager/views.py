@@ -2,5 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def manager(request):
-    return HttpResponse("Manager Page")
+    context={}
+    return render(request,'manager/manager.html',context)
 # Create your views here.
