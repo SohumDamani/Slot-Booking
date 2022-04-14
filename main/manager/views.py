@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Rooms
+
 
 def manager(request):
-    context={}
+    rooms = Rooms.objects.all()
+    context={'rooms':rooms}
     return render(request,'manager/manager.html',context)

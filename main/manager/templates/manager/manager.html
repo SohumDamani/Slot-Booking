@@ -1,0 +1,12 @@
+{% extends 'basic.html' %}
+
+{%block content%}
+<div>
+    <h1> Manager Page</h1>
+    {% for room in rooms %}
+    <h5> {{room}}</h5>
+    {% endfor %}
+
+</div>
+
+{%endblock content%}
