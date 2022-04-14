@@ -12,6 +12,26 @@ class Rooms(models.Model):
 
     def __str__(self):
         return self.room_name
-    #
+
     def __unicode__(self):
         pass
+
+class TimeSlot(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    slot_owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    start_time = models.TimeField(null=False)
+    end_time = models.TimeField(null=False)
+
+    class Meta:
+        unique_together = ('room_id','start_time','end_time')
+
+    def __str__(self):
+        return str(self.start_time) + "-" + str(self.end_time)
+
+class AdvanceBooking(models.Model):
+    manager_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="room_manager_id")
+    no_of_days = models.IntegerField(null=False, default=15, blank=False)
+
+    def __str__(self):
+        return str(self.manager_id) + " " + str(self.no_of_days)
