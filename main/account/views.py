@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import UserRegistrationForm
 
+
 def loginPage(request):
 
     page = 'login'

@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
 from .models import Rooms,TimeSlot,AdvanceBooking
-from .forms import RoomForm,TimeSlotForm
+from .forms import RoomForm,TimeSlotForm,TimeSlotUpdateForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from manager.decorators import role_required
 
-
+@login_required
+@role_required(allowed=['manager'])
 def manager(request):
     rooms = Rooms.objects.all()
     timeslot = TimeSlot.objects.all()
@@ -11,28 +14,36 @@ def manager(request):
     context={'rooms':rooms,'timeslot':timeslot,'advancebooking':advancebooking}
     return render(request,'manager/manager.html',context)
 
+@login_required
+@role_required(allowed=['manager'])
 def createRoom(request):
     user = request.user
-    print("Username : ",user)
     form = RoomForm()
     if request.method=="POST":
         form = RoomForm(request.POST)
         form.instance.room_owner = user
+
         try:
             form.is_valid()
             form.save()
-            return redirect('manager')
+            room = Rooms.objects.last()
+            return redirect(f'time-slot/{room.pk}')
         except:
             messages.error(request,"Room Already Exist!")
             return redirect('create_room')
     context={'form':form,'user':user}
     return render(request,'manager/create_room.html',context)
 
-# def updateRoom(request,pk):
-#     room = Rooms.objects.get(id=pk)
-#     context={}
-#     return render(request,'manager/edit-room.html',context)
+@login_required
+@role_required(allowed=['manager'])
+def deleteRoom(request,pk):
+    room = Rooms.objects.get(id=pk)
+    if request.method == "POST":
+        room.delete()
+    return redirect('manager')
 
+@login_required
+@role_required(allowed=['manager'])
 def addTimeSlot(request,pk):
     user = request.user
     form = TimeSlotForm()
@@ -45,6 +56,6 @@ def addTimeSlot(request,pk):
             form.save()
             return redirect('manager')
         except:
-            pass
+            messages.error(request,'Time Slot Already exist')
     context={'form':form}
     return render(request,'manager/add_time_slot.html',context)

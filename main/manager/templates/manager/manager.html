@@ -4,11 +4,39 @@
 <div>
     <h1> Manager Page</h1>
     <div>
-        {% for room in rooms %}
-        <p><a href="{% url 'time_slot' room.pk %}">{{room.room_owner}} - {{room.room_name}}</a></p>
-        {% endfor %}
-                <hr>
-        <a href="{% url 'create_room'%}"> Create Room </a>
+        <div>
+            <a href="{% url 'create_room'%}"> Create Room </a>
+        </div>
+        <table>
+            <thread>
+                <tr>
+                    <th>Room Name </th>
+                    <th colspan="2"> Action </th>
+                </tr>
+            </thread>
+
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>
+                        <Label>{{room.room_name}}</Label>
+                    </td>
+                    <td>
+                        <form action="{% url 'time_slot' room.pk %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" class="button " value="Edit"> </input>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'delete_room' room.pk %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" class="button btn-warning" value="Delete"> </input>
+                        </form>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 </div>
