@@ -1,0 +1,55 @@
+{% extends 'basic.html' %}
+
+{%block content%}
+<div>
+    <h1>Add Time Slot</h1>
+    <div>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div><label>Room Owner </label>
+                <input type="text" name="room_owner" value="{{user.username}}" disabled/></div>
+            <div><label>Start Time</label>
+                <input type="time" name="start_time" value="12:00" required/></div>
+            <div><label>End Time</label>
+                <input type="time" name="end_time" value="15:00" required/></div>
+
+            <input type="submit" value="Add Time Slot"> </input>
+        </form>
+
+    </div>
+    <h4> List Of Time Slots </h4>
+    {% if ts %}
+    <table>
+        <thread>
+            <tr>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Delete</th>
+              </tr>
+        </thread>
+        <tbody>
+        {% for x in ts %}
+            <tr>
+                <td>{{x.start_time | time:'H:i:s'}}</td>
+                <td>{{x.end_time | time:'H:i:s'}}</td>
+                <td>
+                    <form action="{% url 'delete_slot' x.room_id.id x.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% else %}
+        <br>
+            <p>No Time Slot Available.</p>
+    {% endif %}
+
+
+</div>
+
+{%endblock content%}
