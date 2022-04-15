@@ -4,14 +4,16 @@ from .forms import RoomForm,TimeSlotForm,TimeSlotUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from manager.decorators import role_required
+from django.contrib.auth import logout
+
 
 @login_required
 @role_required(allowed=['manager'])
 def manager(request):
     rooms = Rooms.objects.all()
     timeslot = TimeSlot.objects.all()
-    advancebooking = AdvanceBooking.objects.all()
-    context={'rooms':rooms,'timeslot':timeslot,'advancebooking':advancebooking}
+    advancebooking = AdvanceBooking.objects.get(manager_id=request.user)
+    context={'rooms':rooms,'timeslot':timeslot,'adv_days':advancebooking}
     return render(request,'manager/manager.html',context)
 
 @login_required
@@ -59,3 +61,19 @@ def addTimeSlot(request,pk):
             messages.error(request,'Time Slot Already exist')
     context={'form':form}
     return render(request,'manager/add_time_slot.html',context)
+
+@login_required
+@role_required(allowed=['manager'])
+
+def editAdvanceDays(request):
+    if request.method == "POST":
+        days = request.POST["adv_days"]
+        user = AdvanceBooking.objects.get(manager_id=request.user)
+        user.no_of_days = days
+        user.save()
+        messages.add_message(request,messages.SUCCESS,'Updated Advance Booking Days')
+        return redirect('manager')
+    else:
+        messages.add_message(request, messages.ERROR, 'Login As Manager.')
+        logout(request)
+        return redirect("loginPage")

@@ -3,6 +3,7 @@ from .models import CustomUser
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import UserRegistrationForm
+from manager.models import AdvanceBooking
 
 
 def loginPage(request):
@@ -43,6 +44,7 @@ def ManagerSignUpView(request):
             user.username = user.username.lower()
             user.is_manager=True
             user.save()
+            adv = AdvanceBooking.objects.create(manager_id=CustomUser.objects.get(id=user.id))
             login(request,user)
             return redirect('manager')
         else:
