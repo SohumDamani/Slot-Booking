@@ -36,5 +36,15 @@ def createRoom(request):
 def addTimeSlot(request,pk):
     user = request.user
     form = TimeSlotForm()
+    if request.method=="POST":
+        form = TimeSlotForm(request.POST)
+        form.instance.slot_owner = user
+        form.instance.room_id = Rooms.objects.get(id=pk)
+        try:
+            form.is_valid()
+            form.save()
+            return redirect('manager')
+        except:
+            pass
     context={'form':form}
     return render(request,'manager/add_time_slot.html',context)
