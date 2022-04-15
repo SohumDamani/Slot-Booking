@@ -7,4 +7,5 @@ urlpatterns = [
     path('create-room/time-slot/<str:pk>/',views.addTimeSlot,name='time_slot'),
     path('room-delete/<str:pk>/',views.deleteRoom,name='delete_room'),
     path('advance_days/', views.editAdvanceDays, name="advance_days"),
+    path('room/<str:pk1>/delete-time-slot/<str:pk2>', views.deleteTimeSlot, name="delete_slot"),
 ]

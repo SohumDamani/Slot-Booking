@@ -5,15 +5,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from manager.decorators import role_required
 from django.contrib.auth import logout
-
+from django.http import HttpResponseRedirect
 
 @login_required
 @role_required(allowed=['manager'])
 def manager(request):
-    rooms = Rooms.objects.all()
-    timeslot = TimeSlot.objects.all()
+    rooms = Rooms.objects.filter(room_owner=request.user)
     advancebooking = AdvanceBooking.objects.get(manager_id=request.user)
-    context={'rooms':rooms,'timeslot':timeslot,'adv_days':advancebooking}
+    context={'rooms':rooms,'adv_days':advancebooking}
     return render(request,'manager/manager.html',context)
 
 @login_required
@@ -32,7 +31,7 @@ def createRoom(request):
             return redirect(f'time-slot/{room.pk}')
         except:
             messages.error(request,"Room Already Exist!")
-            return redirect('create_room')
+            return HttpResponseRedirect(request.path_info)
     context={'form':form,'user':user}
     return render(request,'manager/create_room.html',context)
 
@@ -56,15 +55,17 @@ def addTimeSlot(request,pk):
         try:
             form.is_valid()
             form.save()
-            return redirect('manager')
+            return HttpResponseRedirect(request.path_info)
         except:
             messages.error(request,'Time Slot Already exist')
-    context={'form':form}
+
+    ts = TimeSlot.objects.filter(slot_owner=request.user,
+                                  room_id=Rooms.objects.get(id=pk))
+    context={'form':form , 'ts':ts}
     return render(request,'manager/add_time_slot.html',context)
 
 @login_required
 @role_required(allowed=['manager'])
-
 def editAdvanceDays(request):
     if request.method == "POST":
         days = request.POST["adv_days"]
@@ -77,3 +78,13 @@ def editAdvanceDays(request):
         messages.add_message(request, messages.ERROR, 'Login As Manager.')
         logout(request)
         return redirect("loginPage")
+
+@login_required
+@role_required(allowed=['manager'])
+def deleteTimeSlot(request,pk1,pk2):
+    ts = TimeSlot.objects.get(id=pk2)
+    if request.method=="POST":
+        print('yes')
+        ts.delete()
+    success_url = '/manager/create-room/time-slot/' + str(pk1)
+    return redirect(success_url)
