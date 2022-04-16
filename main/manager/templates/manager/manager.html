@@ -31,7 +31,7 @@
                             <Label>{{room.room_name}}</Label>
                         </td>
                         <td>
-                            <form action="{% url 'time_slot' room.pk %}" method="POST">
+                            <form action="{% url 'time_slot' room.id%}" >
                                 {% csrf_token %}
                                 <input type="submit" class="button " value="Edit"> </input>
                             </form>
@@ -47,6 +47,9 @@
                 </tbody>
             </table>
         {% endif %}
+        <a href="{% url 'bookings' %}">
+            <button>Bookings </button>
+        </a>
     </div>
 
 </div>

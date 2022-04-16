@@ -1,11 +1,13 @@
 from django.shortcuts import render,redirect
 from .models import Rooms,TimeSlot,AdvanceBooking
-from .forms import RoomForm,TimeSlotForm,TimeSlotUpdateForm
+from .forms import RoomForm,TimeSlotForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from manager.decorators import role_required
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
+from client.models import TimeSlotBook
+from account.models import CustomUser
 
 @login_required
 @role_required(allowed=['manager'])
@@ -23,12 +25,12 @@ def createRoom(request):
     if request.method=="POST":
         form = RoomForm(request.POST)
         form.instance.room_owner = user
-
         try:
-            form.is_valid()
-            form.save()
-            room = Rooms.objects.last()
-            return redirect(f'time-slot/{room.pk}')
+            temp = form.save(commit=False)
+            temp.room_name=temp.room_name.title()
+            t1 = temp.id
+            temp.save()
+            return redirect(f'time-slot/{t1}')
         except:
             messages.error(request,"Room Already Exist!")
             return HttpResponseRedirect(request.path_info)
@@ -47,21 +49,24 @@ def deleteRoom(request,pk):
 @role_required(allowed=['manager'])
 def addTimeSlot(request,pk):
     user = request.user
-    # form = TimeSlotForm()
+    form = TimeSlotForm()
+    room_name = Rooms.objects.get(id=pk)
     if request.method=="POST":
         form = TimeSlotForm(request.POST)
         form.instance.slot_owner = user
         form.instance.room_id = Rooms.objects.get(id=pk)
         try:
-            form.is_valid()
             form.save()
-            return redirect('time_slot')
+            messages.success(request,"Time Slot Added ")
         except:
-            messages.error(request,'Time Slot Already exist')
+            messages.warning(request,"Time Slot Already Added")
+
+        return redirect(request.path_info)
+
 
     ts = TimeSlot.objects.filter(slot_owner=request.user,
                                   room_id=Rooms.objects.get(id=pk))
-    context={'form':form , 'ts':ts}
+    context={'form':form , 'ts':ts,'room_name':room_name}
     return render(request,'manager/add_time_slot.html',context)
 
 @login_required
@@ -86,5 +91,11 @@ def deleteTimeSlot(request,pk1,pk2):
     if request.method=="POST":
         print('yes')
         ts.delete()
-    success_url = '/manager/create-room/time-slot/' + str(pk1)
-    return redirect(success_url)
+    return HttpResponseRedirect(request.path_info)
+
+@login_required
+@role_required(allowed=['manager'])
+def bookingHistory(request):
+    tsb = TimeSlotBook.objects.filter(manager_id=request.user)
+    context={'bookings':tsb}
+    return render(request,'manager/booking_history.html',context)

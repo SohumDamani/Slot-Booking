@@ -12,9 +12,5 @@ class TimeSlotForm(ModelForm):
         model = TimeSlot
         fields = ('start_time', 'end_time',)
 
-class TimeSlotUpdateForm(ModelForm):
-    class Meta:
-        model = TimeSlot
-        fields = ['start_time', 'end_time']
 
 

@@ -20,5 +20,16 @@ class TimeSlotBook(models.Model):
         return str(self.date) + ":" + str(self.start_time) + "-" + str(self.end_time)
 
 
-# class TimeSlotCancel(models.Model):
+class TimeSlotCancel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    manager_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="manger_id_cancel")
+    client_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer_id_cancel")
+    date = models.DateField(null=False)
+    room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    start_time = models.TimeField(null=False)
+    end_time = models.TimeField(null=False)
+
+    def __str__(self):
+        return str(self.date) + "-" + str(self.start_time) + "-" + str(self.end_time)
+
 

@@ -1,24 +1,32 @@
 from django.shortcuts import render,redirect
 from client.decorators import role_required
+from django.contrib.auth.decorators import login_required
 from account.models import CustomUser
-from client.models import TimeSlotBook
+from client.models import TimeSlotBook,TimeSlotCancel
 from manager.models import TimeSlot,Rooms,AdvanceBooking
 from datetime import datetime,date
 from django.contrib import messages
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 
+@login_required
+@role_required(allowed=['client'])
 def client(request):
     return render(request,'client/client.html')
 
+@login_required
+@role_required(allowed=['client'])
 def searchTimeSlot(request):
     if request.method=="POST":
         st = request.POST["start_time"]
         et = request.POST["end_time"]
         date = request.POST["date"]
-        time_slot = TimeSlot.objects.filter(Q(start_time__contains=st)|Q(end_time__contains=et))
+        time_slot = TimeSlot.objects.filter(Q(start_time__contains=st))
         context = {'time_slot':time_slot,'date':date}
         return render(request,"client/search_results.html",context)
 
+@login_required
+@role_required(allowed=['client'])
 def bookedSlot(request):
     if request.method=="POST":
         room_owner = CustomUser.objects.get(id=request.POST["owner"])
@@ -48,23 +56,30 @@ def bookedSlot(request):
                 return redirect(f'booked-history/')
             except:
                 messages.add_message(request, messages.WARNING, 'Time Slot Already Booked.')
-                return redirect("/client/search-time-slot/?date="+date_requested+"&start_time="
-                                +st+"&end_time="+et)
+                return HttpResponseRedirect(request.path_info)
 
         else:
             messages.add_message(request,messages.WARNING,f"The manager {str(room_owner.username).title()} requires {adv_day} advance booking.")
             return redirect('client')
 
-        return render(request,'client/booked_slot.html')
+    return render(request,'client/booked_slot.html')
 
+@login_required
+@role_required(allowed=['client'])
 def bookedHistory(request):
     tsb = TimeSlotBook.objects.filter(client_id=request.user)
-    context = {'booked':tsb}
+    tsc = TimeSlotCancel.objects.filter(client_id=request.user)
+    context = {'booked':tsb,'canceled':tsc}
     return render(request,'client/booked_history.html',context)
 
+@login_required
+@role_required(allowed=['client'])
 def deleteSlot(request,pk):
     if request.method=="POST":
         tsb = TimeSlotBook.objects.get(id=pk)
+        tsc = TimeSlotCancel(manager_id=tsb.manager_id,client_id=tsb.client_id,room_id=tsb.room_id,
+                             date = tsb.date,start_time=tsb.start_time,end_time=tsb.end_time)
+        tsc.save()
         tsb.delete()
         messages.add_message(request, messages.SUCCESS, 'Time Slot Cancelled Successfully.')
     return redirect('booked_history')

@@ -10,6 +10,8 @@
 
             <div><label>Room Owner </label>
                 <input type="text" name="room_owner" value="{{user.username}}" disabled/></div>
+            <div><label>Room Name </label>
+                <input type="text" name="room_name" value="{{room_name}}" disabled/></div>
             <div><label>Start Time</label>
                 <input type="time" name="start_time" value="12:00" required/></div>
             <div><label>End Time</label>
@@ -32,8 +34,8 @@
         <tbody>
         {% for x in ts %}
             <tr>
-                <td>{{x.start_time | time:'H:i:s'}}</td>
-                <td>{{x.end_time | time:'H:i:s'}}</td>
+                <td>{{x.start_time | time:'H:i'}}</td>
+                <td>{{x.end_time | time:'H:i'}}</td>
                 <td>
                     <form action="{% url 'delete_slot' x.room_id.id x.id %}" method="POST">
                         {% csrf_token %}
