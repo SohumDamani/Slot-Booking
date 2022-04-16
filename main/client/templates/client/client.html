@@ -2,7 +2,24 @@
 
 {%block content%}
 <div>
-    <h1> Client Page</h1>
+    <h1> Book Time Slot </h1>
+    <div>
+        <form method="POST" action="{% url 'search_result' %}">
+            <div>
+                <Label> Date </Label>
+                <input type="date" name="date" value="{% now 'Y-m-d' %}"> </input>
+            </div>
+            <div>
+                <Label> Start Time </Label>
+                <input type="time" name="start_time" value="12:00"> </input>
+            </div>
+            <div>
+                <Label> End Time </Label>
+                <input type="time" name="end_time" value="15:00"> </input>
+            </div>
+            <input type="submit" class="button btn-success" style="cursor:pointer;" value="Submit">
+        </form>
+    </div>
 </div>
 
 {%endblock content%}
