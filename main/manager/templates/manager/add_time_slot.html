@@ -39,6 +39,10 @@
                 <td>
                     <form action="{% url 'delete_slot' x.room_id.id x.id %}" method="POST">
                         {% csrf_token %}
+                        <input type="hidden" name="slot_id" value="{{x.id}}"> </input>
+                        <input type="hidden" name="start_time" value="{{x.start_time | time:'H:i'}}"> </input>
+                        <input type="hidden" name="end_time" value="{{x.end_time | time:'H:i'}}"> </input>
+                        <input type="hidden" name="end_time" value="{{x.end_time | time:'H:i'}}"> </input>
                         <input type="submit" value="Delete">
                     </form>
                 </td>

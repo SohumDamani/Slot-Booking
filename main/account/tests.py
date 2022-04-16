@@ -1,3 +1,8 @@
 from django.test import TestCase
+from .models import CustomUser
 
-# Create your tests here.
+class UserTestCase(TestCase):
+    def setUp(self):
+        CustomUser.objects.create(
+            username="Client1",password
+        )

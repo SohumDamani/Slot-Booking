@@ -7,6 +7,7 @@ from manager.decorators import role_required
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from client.models import TimeSlotBook
+from django.urls import reverse
 from account.models import CustomUser
 
 @login_required
@@ -55,11 +56,30 @@ def addTimeSlot(request,pk):
         form = TimeSlotForm(request.POST)
         form.instance.slot_owner = user
         form.instance.room_id = Rooms.objects.get(id=pk)
-        try:
-            form.save()
-            messages.success(request,"Time Slot Added ")
-        except:
-            messages.warning(request,"Time Slot Already Added")
+        temp = form.save(commit=False)
+        ts = TimeSlot.objects.filter(room_id=pk)
+        client = [str(temp.start_time),str(temp.end_time)]
+        print("Client :",client)
+        flag=True
+        msg = "Time Slot Added Successfully"
+        if client[0]>client[1]:
+            messages.warning(request,"Start time cannot exceed end time!")
+        else:
+            for i in ts:
+                check=list(str(i).split('-'))
+                if client[0]==check[0] and client[1]==check[1]:
+                    flag=False
+                    msg = "Time Slot Already Added"
+                    break
+                elif check[0]<client[0]<check[1] or check[0]<client[1]<check[1]:
+                    flag=False
+                    msg = f"Time slot {'-'.join(client)} clashes with {i}"
+                    break
+            if flag:
+                temp.save()
+                messages.success(request,msg)
+            else:
+                messages.warning(request,msg)
 
         return redirect(request.path_info)
 
@@ -87,12 +107,12 @@ def editAdvanceDays(request):
 @login_required
 @role_required(allowed=['manager'])
 def deleteTimeSlot(request,pk1,pk2):
-    ts = TimeSlot.objects.get(id=pk2)
     if request.method=="POST":
-        print('yes')
+        ts = TimeSlot.objects.get(id=request.POST.get('slot_id'))
         ts.delete()
-    return HttpResponseRedirect(request.path_info)
+        messages.success(request,f"Slot Deleted Successfully ")
 
+    return redirect('manager')
 @login_required
 @role_required(allowed=['manager'])
 def bookingHistory(request):
