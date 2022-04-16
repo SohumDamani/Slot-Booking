@@ -12,40 +12,41 @@
                 <input type="submit" value="Edit">
             </div>
         </form>
-
         <div>
             <a href="{% url 'create_room'%}"> Create Room </a>
         </div>
-        <table>
-            <thread>
-                <tr>
-                    <th>Room Name </th>
-                    <th colspan="2"> Action </th>
-                </tr>
-            </thread>
+        {%if rooms %}
+            <table>
+                <thread>
+                    <tr>
+                        <th>Room Name </th>
+                        <th colspan="2"> Action </th>
+                    </tr>
+                </thread>
 
-            <tbody>
-                {% for room in rooms %}
-                <tr>
-                    <td>
-                        <Label>{{room.room_name}}</Label>
-                    </td>
-                    <td>
-                        <form action="{% url 'time_slot' room.pk %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="button " value="Edit"> </input>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="{% url 'delete_room' room.pk %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" class="button btn-warning" value="Delete"> </input>
-                        </form>
-                    </td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        </table>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>
+                            <Label>{{room.room_name}}</Label>
+                        </td>
+                        <td>
+                            <form action="{% url 'time_slot' room.pk %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="button " value="Edit"> </input>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{% url 'delete_room' room.pk %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="button btn-warning" value="Delete"> </input>
+                            </form>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 
 </div>

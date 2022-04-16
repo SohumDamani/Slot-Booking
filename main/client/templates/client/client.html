@@ -5,6 +5,7 @@
     <h1> Book Time Slot </h1>
     <div>
         <form method="POST" action="{% url 'search_result' %}">
+            {% csrf_token %}
             <div>
                 <Label> Date </Label>
                 <input type="date" name="date" value="{% now 'Y-m-d' %}"> </input>
@@ -19,6 +20,12 @@
             </div>
             <input type="submit" class="button btn-success" style="cursor:pointer;" value="Submit">
         </form>
+        <div>
+            <a href="http://127.0.0.1:8000/client/booked-slot/booked-history/">
+                <button>Booked History</button>
+            </a>
+        </div>
+
     </div>
 </div>
 

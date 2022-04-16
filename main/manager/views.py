@@ -47,7 +47,7 @@ def deleteRoom(request,pk):
 @role_required(allowed=['manager'])
 def addTimeSlot(request,pk):
     user = request.user
-    form = TimeSlotForm()
+    # form = TimeSlotForm()
     if request.method=="POST":
         form = TimeSlotForm(request.POST)
         form.instance.slot_owner = user
@@ -55,7 +55,7 @@ def addTimeSlot(request,pk):
         try:
             form.is_valid()
             form.save()
-            return HttpResponseRedirect(request.path_info)
+            return redirect('time_slot')
         except:
             messages.error(request,'Time Slot Already exist')
 

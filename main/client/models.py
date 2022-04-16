@@ -7,7 +7,7 @@ import uuid
 class TimeSlotBook(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     manager_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="manager_id")
-    customer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer_id")
+    client_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="customer_id")
     date = models.DateField(null=False)
     room_id = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     start_time = models.TimeField(null=False)
