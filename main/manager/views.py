@@ -7,8 +7,21 @@ from manager.decorators import role_required
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from client.models import TimeSlotBook
-from django.urls import reverse
 from account.models import CustomUser
+
+@login_required
+def profile(request):
+    if request.method=="POST":
+        user = CustomUser.objects.get(username=request.POST.get('username'))
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.phone = request.POST.get('phone')
+        # print((request.POST.get('username')))
+        user.save()
+        messages.success(request,"Profile Updated")
+        return redirect('profile_manager')
+    return render(request,'profile.html')
 
 @login_required
 @role_required(allowed=['manager'])

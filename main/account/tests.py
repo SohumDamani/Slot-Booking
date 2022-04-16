@@ -1,8 +1,21 @@
 from django.test import TestCase
-from .models import CustomUser
+from account.models import CustomUser
 
-class UserTestCase(TestCase):
+
+class TestModels(TestCase):
+
     def setUp(self):
-        CustomUser.objects.create(
-            username="Client1",password
+        self.user1 = CustomUser.objects.create(
+            username='Test',
+            first_name='test',
+            last_name='test',
+            phone='7978797977',
+            email='test@gmail.com',
+            is_customer=True,
+            is_manager=False
         )
+
+    def test_user_creation(self):
+        self.assertEquals(self.user1.username, 'Test')
+        self.assertEquals(self.user1.is_customer, True)
+        self.assertEquals(self.user1.is_manager, False)

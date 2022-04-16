@@ -4,13 +4,25 @@ from django.contrib.auth.decorators import login_required
 from account.models import CustomUser
 from client.models import TimeSlotBook,TimeSlotCancel
 from manager.models import TimeSlot,Rooms,AdvanceBooking
-from datetime import datetime,date
+from datetime import datetime
 from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 
 @login_required
-@role_required(allowed=['client'])
+def profile(request):
+    if request.method=="POST":
+        user = CustomUser.objects.get(username=request.POST.get('username'))
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.phone = request.POST.get('phone')
+        user.save()
+        messages.success(request,"Profile Updated")
+        return redirect('profile_client')
+    return render(request,'profile.html')
+
+@login_required
 def client(request):
     return render(request,'client/client.html')
 

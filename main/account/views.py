@@ -7,9 +7,7 @@ from manager.models import AdvanceBooking
 
 
 def loginPage(request):
-
     page = 'login'
-
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -42,6 +40,8 @@ def ManagerSignUpView(request):
             user = form.save(commit=False)
             # saving all username in lower case format
             user.username = user.username.lower()
+            # user.first_name = user.first_name.title()
+            # user.last_name = user.last_name.title()
             user.is_manager=True
             user.save()
             adv = AdvanceBooking.objects.create(manager_id=CustomUser.objects.get(id=user.id))
