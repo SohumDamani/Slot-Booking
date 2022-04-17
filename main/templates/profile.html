@@ -1,8 +1,9 @@
 {% extends 'basic.html' %}
 
 {%block content%}
-<div class="container">
-    <div>
+<div class="container d-flex justify-content-center">
+    <div class="w-50  border rounded shadow p-3 rounded-3">
+        <div>
         <h1> Profile Page </h1>
 
         {% if request.user.is_manager %}
@@ -29,6 +30,7 @@
 
 </div>
 </div>
+    </div>
 </div>
 
 {%endblock content%}

@@ -57,6 +57,8 @@ def deleteRoom(request,pk):
     room = Rooms.objects.get(id=pk)
     if request.method == "POST":
         room.delete()
+        messages.add_message(request,messages.SUCCESS,f"Room Deleted Successfully ")
+
     return redirect('manager')
 
 @login_required
@@ -123,7 +125,7 @@ def deleteTimeSlot(request,pk1,pk2):
     if request.method=="POST":
         ts = TimeSlot.objects.get(id=request.POST.get('slot_id'))
         ts.delete()
-        messages.success(request,f"Slot Deleted Successfully ")
+        messages.add_message(request,messages.SUCCESS,f"Slot Deleted Successfully ")
 
     return redirect('manager')
 @login_required

@@ -2,17 +2,17 @@
 
 {%block content%}
 <div>
-    <h1> Booked Time Slot </h1>
-    <div>
+
+    <div class="container">
         {% if booked %}
-        <table>
-            <caption>Upcoming Bookings</caption>
-            <thread>
+        <h3> Booked Time Slot </h3>
+        <table class="table table-hover mt-3">
+            <thread class="bg-dark text-white">
                 <tr>
                     <td> No. </td>
+                    <td> Date </td>
                     <td> Room Owner </td>
                     <td> Room Name </td>
-                    <td> Date </td>
                     <td> Start Time </td>
                     <td> End Time </td>
                     <td> Cancel </td>
@@ -23,15 +23,15 @@
                 {% for slot in booked%}
                 <tr>
                     <td> {{ forloop.counter }} </td>
-                    <td> {{slot.manager_id}}</td>
-                    <td> {{slot.room_id}}</td>
                     <td> {{slot.date}}</td>
+                    <td><button button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold">{{slot.manager_id}}</button></td>
+                    <td> {{slot.room_id}}</td>
                     <td> {{slot.start_time | time:"H:i"}}</td>
                     <td> {{slot.end_time | time:"H:i"}}</td>
                     <td>
                         <form method="POST" action="{% url 'delete_slot' slot.id %}">
                             {% csrf_token %}
-                            <input type="submit" value="Cancel">
+                            <input type="submit" class="btn btn-sm btn-outline-dark" value="Cancel">
                         </form>
                     </td>
                 </tr>
@@ -44,13 +44,13 @@
         {% endif %}
 
         {% if canceled %}
-        <table>
-            <caption>Canceled Bookings</caption>
-            <thred>
+        <h3> Cancelled Time Slot </h3>
+        <table class="table table-hover mt-3">
+            <thred class="bg-dark text-white">
                 <tr>
                     <td>No.</td>
-                    <td>Client Name</td>
                     <td>Date</td>
+                    <td>Room Owner </td>
                     <td>Room Name</td>
                     <td>Start Time</td>
                     <td>End Time</td>
@@ -60,8 +60,8 @@
                 {% for x in canceled %}
                 <tr>
                     <td>{{forloop.counter}} </td>
-                    <td>{{x.client_id}}</td>
                     <td>{{x.date}}</td>
+                    <td><button button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold">{{x.room_id.room_owner}}</button> </td>
                     <td>{{x.room_id}}</td>
                     <td>{{x.start_time | time:"H:i"}}</td>
                     <td>{{x.end_time | time:"H:i"}}</td>
