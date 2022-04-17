@@ -20,27 +20,76 @@
                 <a href="{% url 'manager_signup' %}" class="text-light text-decoration-none">Create Manager Account </a>
             </button>
             <button class="btn btn-primary btn-sm">
-                <a href="{% url 'client_signup' %}" class="text-light text-decoration-none"> Create Customer Account </a>
+                <a href="{% url 'client_signup' %}" class="text-light text-decoration-none"> Create Customer
+                    Account </a>
             </button>
         </div>
     </form>
 </div>
 {% else %}
 {% if page == 'manager' %}
-<h3> Sign Up as Manager </h3>
+<h3 class="text-center mt-3"> Sign Up as Manager </h3>
 {% elif page == 'customer' %}
-<h3> Sign Up as Customer </h3>
+<h3 class="text-center mt-3"> Sign Up as Customer </h3>
 {% endif %}
-<div>
-    <form method="POST" action="">
+<div class="container mt-3 d-flex justify-content-center">
+    <form method="POST" action="" class="w-50">
         {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Register">
+        <input type="hidden" name="csrfmiddlewaretoken"
+               value="8cJezmt7lFnm4fv8ai8gwS0oBRtD0SUKnYkA5tTXUWf0G93tjlhFxUpD3I3zbBWE">
+        <p>
+
+            <label class="form-label position-relative" for="id_username">Username: <span
+                    class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+
+            <input class="form-control position-relative" type="text" name="username" maxlength="150" autofocus
+                   required id="id_username"> <span class="fs-6">Use only letters, digits and @/./+/-/_ only.</span>
+        </p>
+        <p><label class="form-label position-relative" for="id_email">Email: <span
+                class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+            <input class="form-control" type="email" name="email"
+                   required id="id_email"></p>
+        <p><label class="form-label position-relative" for="id_first_name">First name: <span
+                class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+            <input class="form-control" type="text"
+                   name="first_name" required
+                   id="id_first_name"></p>
+        <p><label class="form-label position-relative" for="id_last_name">Last name: <span
+                class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+            <input class="form-control" type="text"
+                   name="last_name" required
+                   id="id_last_name">
+        </p>
+        <p><label class="form-label position-relative" for="id_phone">Phone: <span
+                class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+            <input class="form-control" type="text" name="phone"
+                   maxlength="10" required id="id_phone">
+        </p>
+        <p><label class="form-label position-relative" for="id_password1">Password: <span
+                class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+            <input class="form-control" type="password"
+                   name="password1" required
+                   id="id_password1"> <span
+                    class="helptext"><ul><li>Your password can&#39;t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can&#39;t be a commonly used password.</li><li>Your password can&#39;t be entirely numeric.</li></ul></span>
+        </p>
+        <p><label class="form-label position-relative" for="id_password2">Password confirmation: <span
+                class="position-absolute top-50 start-100 translate-middle ps-3 pb-1 border-light rounded-circle text-danger fw-bold"> *</span></label>
+            <input class="form-control"
+                   type="password"
+                   name="password2" required
+                   id="id_password2"> <span
+                    class="helptext"></span>
+        </p>
+        <input class="form-control btn btn-outline-dark" type="submit" value="Register">
     </form>
 
-    <p> Already Signed Up? </p>
-    <a href="{% url 'loginPage' %}"> Login </a>
+
 </div>
+<div class="d-flex justify-content-center align-items-center my-3">
+        <p class=""> Already Signed Up? <a href="{% url 'loginPage' %}" class="btn btn-primary btn-sm ms-2"> Login </a> </p>
+
+    </div>
+
 
 {% endif %}
 
