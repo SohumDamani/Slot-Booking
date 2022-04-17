@@ -1,0 +1,5 @@
+Pyhton version above 3
+
+install django :
+  pip install django==2.1.7
+  
