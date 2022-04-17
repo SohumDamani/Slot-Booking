@@ -2,17 +2,20 @@
 
 {%block content%}
 <div>
-    <h1>Add room</h1>
-    <div>
+    <div class="container d-flex justify-content-center">
+
+        <div class="w-50 shadow border rounded p-4">
+            <h3>Add room</h3>
 
         <form method="POST" action="">
             {% csrf_token %}
-                <label>Room Owner </label>
-                <input type="text" name="room_owner" value="{{user.username}}" disabled> </input>
-                {{form.as_p}}
-            <input type="submit" value="Add Room"> </input>
+                <label class="form-label mb-2">Room Owner </label>
+                <input class="form-control mb-2" type="text" name="room_owner" value="{{user.username}}" disabled> </input>
+                <p><label class="form-label mb-2" for="id_room_name">Room name</label> <input class="form-control mb-2" type="text" name="room_name" maxlength="10" required id="id_room_name"></p>
+            <input class="btn btn-dark" type="submit" value="Add Room">
         </form>
 
+    </div>
     </div>
 
 </div>

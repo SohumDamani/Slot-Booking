@@ -13,8 +13,7 @@
                 {% endif %}
                 {% csrf_token %}
                 <div><Label class="form-label mb-2">Username : </Label>
-                    <input class="form-control mb-2" type="text" value="{{request.user}}
-{% if request.user.is_manager %}(manager){% else %} (client){% endif %}" disabled></div>
+                    <input class="form-control mb-2" type="text" value="{{request.user}}" disabled></div>
                 <input type="hidden" name="username" value="{{request.user}}">
     </div>
     <div><Label class="form-label mb-2">First Name :</Label>
@@ -25,7 +24,7 @@
         <input class="form-control mb-2" type="text" name="email" value="{{request.user.email}}"></div>
     <div><Label class="form-label mb-2">Phone :</Label>
         <input class="form-control mb-3" type="text" name="phone" value="{{request.user.phone}}"></div>
-    <input type="submit" class="btn btn-outline-dark btn-sm" value="Edit">
+    <input type="submit" class="btn btn-outline-dark btn-sm" value="Save">
     </form>
 
 </div>

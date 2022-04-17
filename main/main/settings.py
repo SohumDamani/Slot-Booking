@@ -76,6 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'main.wsgi.application'
 AUTH_USER_MODEL = 'account.CustomUser'
 LOGIN_URL = 'loginPage'
+LOGIN_REDIRECT_URL = 'loginPage'
 
 
 

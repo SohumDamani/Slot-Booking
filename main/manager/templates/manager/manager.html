@@ -2,7 +2,7 @@
 
 {%block content%}
 <div class="container d-flex justify-content-center">
-    <div class="w-50 border shadow p-3 rounded-3">
+    <div class="w-50 border shadow p-4 rounded-3">
         <h1> Manager Page</h1>
         <div>
             <form method="POST" action="{% url 'advance_days' %}">
@@ -10,12 +10,12 @@
                 <div>
                     <Label class="form-label">No. of days to Book in Advance </Label>
 
-                    <div class="row gx-3">
-                        <div class="col">
+                    <div class="row gx-3 w-75">
+                        <div class="col-10 ">
                             <input class="col form-control" type="text" name="adv_days" value="{{adv_days.no_of_days}}"
                                    required>
                         </div>
-                        <div class="col">
+                        <div class="col-2">
                             <input class="col form-control btn btn-outline-dark" type="submit" value="Edit">
 
                         </div>
@@ -30,7 +30,7 @@
                 <thread>
                     <tr>
                         <th>Room Name</th>
-                        <th colspan="2"> Action</th>
+                        <th colspan="2" class="text-center"> </th>
                     </tr>
                 </thread>
 
@@ -40,7 +40,7 @@
                     <td class="border-0">
                         <Label>{{room.room_name}}</Label>
                     </td>
-                    <td class="d-flex border-0">
+                    <td class="d-flex justify-content-end border-0">
                         <form action="{% url 'time_slot' room.id%}" class="me-3">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-dark" value="Edit"> </input>

@@ -2,17 +2,17 @@
 
 {%block content%}
 <div>
-    <h1>Upcoming Appointments</h1>
-    <a href="{% url 'manager'%}">
-        <button>Back </button>
-    </a>
+    <h3>Upcoming Appointments</h3>
+
     <div>
         {% if bookings %}
-        <table>
+        <table class="table">
             <thred>
                 <tr>
                     <td>No.</td>
                     <td>Client Name</td>
+                    <td>Phone Number </td>
+                    <td>Email</td>
                     <td>Date</td>
                     <td>Room Name</td>
                     <td>Start Time</td>
@@ -23,7 +23,9 @@
                 {% for x in bookings %}
                 <tr>
                     <td>{{forloop.counter}} </td>
-                    <td>{{x.client_id}}</td>
+                    <td><p><button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold" disabled>{{x.client_id.first_name}} {{x.client_id.last_name}}</button></p></td>
+                    <td>{{x.client_id.phone}}</td>
+                    <td>{{x.client_id.email}}</td>
                     <td>{{x.date}}</td>
                     <td>{{x.room_id}}</td>
                     <td>{{x.start_time | time:"H:i"}}</td>

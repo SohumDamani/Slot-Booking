@@ -54,7 +54,6 @@ def bookedSlot(request):
         day2 = date_now.replace("-","")
         day2 = datetime.strptime(day2,"%Y%m%d").date()
         diff = (day1-day2).days
-        print(diff)
         adv_day = AdvanceBooking.objects.get(manager_id=room_owner)
         adv_day = adv_day.no_of_days
 
@@ -71,7 +70,7 @@ def bookedSlot(request):
                 return HttpResponseRedirect(request.path_info)
 
         else:
-            messages.add_message(request,messages.WARNING,f"The manager {str(room_owner.username).title()} requires {adv_day} advance booking.")
+            messages.add_message(request,messages.WARNING,f"{str(room_owner.username).title()} requires {adv_day} days advance booking.")
             return redirect('client')
 
     return render(request,'client/booked_slot.html')

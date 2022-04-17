@@ -24,7 +24,7 @@
                 <tr>
                     <td> {{ forloop.counter }} </td>
                     <td> {{slot.date}}</td>
-                    <td><button button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold">{{slot.manager_id}}</button></td>
+                    <td><button button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold" disabled>{{slot.manager_id}}</button></td>
                     <td> {{slot.room_id}}</td>
                     <td> {{slot.start_time | time:"H:i"}}</td>
                     <td> {{slot.end_time | time:"H:i"}}</td>
@@ -61,7 +61,7 @@
                 <tr>
                     <td>{{forloop.counter}} </td>
                     <td>{{x.date}}</td>
-                    <td><button button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold">{{x.room_id.room_owner}}</button> </td>
+                    <td><button button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold" disabled>{{x.room_id.room_owner}}</button> </td>
                     <td>{{x.room_id}}</td>
                     <td>{{x.start_time | time:"H:i"}}</td>
                     <td>{{x.end_time | time:"H:i"}}</td>

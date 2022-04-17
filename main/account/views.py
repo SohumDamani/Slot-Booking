@@ -4,8 +4,9 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from manager.models import AdvanceBooking
+from account.decorators import role_required
 
-
+# @role_required
 def loginPage(request):
     page = 'login'
     msg=''
