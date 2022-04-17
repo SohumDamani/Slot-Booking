@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from manager.models import AdvanceBooking
+from django.db.utils import IntegrityError
 
 
 def loginPage(request):
@@ -33,10 +34,11 @@ def loginPage(request):
 def managerSignUp(request):
     page = 'manager'
     form = UserRegistrationForm()
+
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = UserRegistrationForm(request.POST or None)
         if form.is_valid():
-            # to reformat user input
+        # to reformat user input
             user = form.save(commit=False)
             # saving all username in lower case format
             user.username = user.username.lower()
@@ -48,7 +50,7 @@ def managerSignUp(request):
             login(request,user)
             return redirect('manager')
         else:
-            messages.error(request,f"An error occured")
+            print(form.errors)
 
     context = {'page':page,'form':form}
 
@@ -59,18 +61,20 @@ def clientSignUp(request):
     form = UserRegistrationForm()
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
-        if form.is_valid():
+        try:
+            form.is_valid()
+            print("Yes")
             # to reformat user input
             user = form.save(commit=False)
-
             # saving all username in lower case format
             user.username = user.username.lower()
             user.is_customer = True
             user.save()
             login(request,user)
             return redirect('client')
-        else:
-            messages.error(request,f"An error occured")
+        except IntegrityError as e:
+            print(form.errors)
+            messages.error(request,f"{e}")
 
     context = {'page':page,'form':form}
 
