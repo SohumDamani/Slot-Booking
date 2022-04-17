@@ -1,45 +1,48 @@
 {% extends 'basic.html' %}
 
 
-
 {%block content%}
 {% if page == 'login' %}
-    <div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <Label> Username: </Label>
-            <input type="text" name="username" placeholder="Enter Username"> </input>
-
-            <Label> Password: </Label>
-            <input type="password" name="password" placeholder="Enter Password"> </input>
-
-            <input type="submit" value="Login">
-        </form>
-        <hr>
-        <a href="{% url 'manager_signup' %}">Create Manager Account </a>
-        <hr>
-        <a href="{% url 'client_signup' %}"> Create Customer Account </a>
-
-    </div>
-{% else %}
-    {% if page == 'manager' %}
-        <h3> Sign Up as Manager </h3>
-    {% elif page == 'customer' %}
-        <h3> Sign Up as Customer </h3>
-    {% endif %}
-        <div>
-            <form method="POST" action="">
-                {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" value="Register">
-            </form>
-
-            <p> Already Signed Up? </p>
-            <a href="{% url 'loginPage' %}"> Login </a>
+<div>
+    <form method="POST" action="" class="container mt-5 shadow border p-3 rounded rounded-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="Enter Username">
         </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" placeholder="Enter Password" class="form-control">
+        </div>
+        <input type="submit" class="btn btn-primary btn-sm" value="Login"/>
+        <div class="mt-3">
+            <button class="btn btn-primary btn-sm">
+                <a href="{% url 'manager_signup' %}" class="text-light text-decoration-none">Create Manager Account </a>
+            </button>
+            <button class="btn btn-primary btn-sm">
+                <a href="{% url 'client_signup' %}" class="text-light text-decoration-none"> Create Customer Account </a>
+            </button>
+        </div>
+    </form>
+</div>
+{% else %}
+{% if page == 'manager' %}
+<h3> Sign Up as Manager </h3>
+{% elif page == 'customer' %}
+<h3> Sign Up as Customer </h3>
+{% endif %}
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Register">
+    </form>
+
+    <p> Already Signed Up? </p>
+    <a href="{% url 'loginPage' %}"> Login </a>
+</div>
 
 {% endif %}
-
 
 
 {%endblock content%}
