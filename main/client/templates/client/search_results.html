@@ -1,0 +1,52 @@
+{% extends 'basic.html' %}
+
+{%block content%}
+<div>
+    <h1> Available Time Slots </h1>
+    <div>
+        {% if time_slot %}
+
+        <table class="table table-hover mt-3">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>No.</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Date</th>
+                    <th>Manager Name</th>
+                    <th>Room name</th>
+                    <th>Book</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slot in time_slot %}
+                    <tr>
+                        <td>{{ forloop.counter }} </td>
+                        <td>{{ slot.start_time | time:"H:i" }} </td>
+                        <td>{{ slot.end_time | time:"H:i" }} </td>
+                        <td>{{ date }} </td>
+                        <td><button class="btn btn-primary btn-sm p-0 px-1 rounded-pill fw-bold">{{ slot.slot_owner }}</button></td>
+                        <td>{{ slot.room_id }} </td>
+                        <td>
+                            <form method="POST" action="{% url 'booked_slot' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="owner" value="{{ slot.slot_owner.id }}"/>
+                                <input type="hidden" name="start_time" value="{{slot.start_time | time:'H:i:s'}}"/>
+                                <input type="hidden" name="end_time" value="{{ slot.end_time | time:'H:i:s'}}"/>
+                                <input type="hidden" name="room_id" value="{{slot.room_id.id}}"/>
+                                <input type="hidden" name="date" value="{{date}}"/>
+                                <input type="submit" value="Book" class="btn btn-sm btn-success" style="cursor:pointer">
+                            </form>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p> No Slot Available</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

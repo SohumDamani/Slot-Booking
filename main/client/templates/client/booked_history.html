@@ -1,0 +1,78 @@
+{% extends 'basic.html' %}
+
+{%block content%}
+<div>
+    <h1> Booked Time Slot </h1>
+    <div>
+        {% if booked %}
+        <table>
+            <caption>Upcoming Bookings</caption>
+            <thread>
+                <tr>
+                    <td> No. </td>
+                    <td> Room Owner </td>
+                    <td> Room Name </td>
+                    <td> Date </td>
+                    <td> Start Time </td>
+                    <td> End Time </td>
+                    <td> Cancel </td>
+
+                </tr>
+            </thread>
+            <tbody>
+                {% for slot in booked%}
+                <tr>
+                    <td> {{ forloop.counter }} </td>
+                    <td> {{slot.manager_id}}</td>
+                    <td> {{slot.room_id}}</td>
+                    <td> {{slot.date}}</td>
+                    <td> {{slot.start_time | time:"H:i"}}</td>
+                    <td> {{slot.end_time | time:"H:i"}}</td>
+                    <td>
+                        <form method="POST" action="{% url 'delete_slot' slot.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Cancel">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p> No upcoming slots yet.
+
+        {% endif %}
+
+        {% if canceled %}
+        <table>
+            <caption>Canceled Bookings</caption>
+            <thred>
+                <tr>
+                    <td>No.</td>
+                    <td>Client Name</td>
+                    <td>Date</td>
+                    <td>Room Name</td>
+                    <td>Start Time</td>
+                    <td>End Time</td>
+                </tr>
+            </thred>
+            <tbody>
+                {% for x in canceled %}
+                <tr>
+                    <td>{{forloop.counter}} </td>
+                    <td>{{x.client_id}}</td>
+                    <td>{{x.date}}</td>
+                    <td>{{x.room_id}}</td>
+                    <td>{{x.start_time | time:"H:i"}}</td>
+                    <td>{{x.end_time | time:"H:i"}}</td>
+                <tr/>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p> No slots canceled yet.
+        {% endif %}
+    </div>
+</div>
+
+{%endblock content%}

@@ -1,0 +1,42 @@
+{% extends 'basic.html' %}
+
+{%block content%}
+<div>
+    <h1>Upcoming Appointments</h1>
+    <a href="{% url 'manager'%}">
+        <button>Back </button>
+    </a>
+    <div>
+        {% if bookings %}
+        <table>
+            <thred>
+                <tr>
+                    <td>No.</td>
+                    <td>Client Name</td>
+                    <td>Date</td>
+                    <td>Room Name</td>
+                    <td>Start Time</td>
+                    <td>End Time</td>
+                </tr>
+            </thred>
+            <tbody>
+                {% for x in bookings %}
+                <tr>
+                    <td>{{forloop.counter}} </td>
+                    <td>{{x.client_id}}</td>
+                    <td>{{x.date}}</td>
+                    <td>{{x.room_id}}</td>
+                    <td>{{x.start_time | time:"H:i"}}</td>
+                    <td>{{x.end_time | time:"H:i"}}</td>
+                <tr/>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p> No bookings made yet </p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock content%}
