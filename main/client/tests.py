@@ -82,6 +82,10 @@ class TestUrls(SimpleTestCase):
         url = reverse("booked_history")
         self.assertEquals(resolve(url).func,bookedHistory)
 
+    def test_delete_slot(self):
+        url = reverse("delete_slot",args=[1])
+        self.assertEquals(resolve(url).func,deleteSlot)
+
 class TestViews(TestCase):
     def setUp(self):
         self.search_slot = reverse("search_result")
