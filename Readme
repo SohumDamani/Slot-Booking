@@ -1,9 +1,82 @@
-install
+# Roomier
 
-python version above 3
-pip install django==2.1.7
+A simple, responsive  website developed to help the customer for booking time slot as per the requirement. It also allows the manager to provide room on rent.
 
-steps
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+### Getting Started
+
+A customize website which helps customer to aid customer to book time slot and it also allows the manager to provide room on rent for particular time slot. 
+
+### Features
+
+##### Types Of User:
+ - Customer
+ - Manager
+ - Admin
+    
+##### User
+ - Allows new users to sign up.
+ - Allows existing users to sign in.
+ - Allows authenticated User to change password, edit profile.
+ - User can also reset password followed by email confirmation.
+  
+##### Room Manager
+ - Room Manager can add, delete or change room details and Time Slots details.
+ - Room Manager can view bookings and cancelled booking booked by customer.
+ - By default the number of days 'x' is initialized to 15 days.
+ - Room Manager can edit the number of days 'x' to book in advance.
+
+##### Customer
+ - A Customer can book Time Slot, once booked, the time slotslot cannot be booked by another Customer for the same day.
+ - A Customer is restricated to book a Room 'x' days in advance.
+ - A Customer can view and cancel his own bookings.
+ - The customer can view all bookings as well as cancelled bookings.
+
+### Prerequisites
+```
+Python 3 and higher version.
+Django 2.1.7
+```
+
+### Installing
+1. How to install virtualenv
+```
+$ pip3 install virtualenv 
+$ virtualenv -p /usr/bin/python3 env
+$ source env/bin/activate
+```
+
+2. Installing requirements
+```
+$ pip3 install -r requirement.txt
+```
+
+3. Change directory to book_room
+```
+$ cd book_room
+$ python3 manage.py makemigrations accounts
+$ python3 manage.py makemigrations manager
+$ python3 manage.py makemigrations customer
+$ python3 manage.py migrate
+$ python3 manage.py collectstatic
+```
+
+4. Run the application, running on localhost.
+```
+$ python3 manage.py runserver
+```
+open [localhost](http://127.0.0.1:8000/) in browser.
+
+5. Testing Reset Password feature using Django Email Server
+* Starting the email server in another terminal
+```
+python3 -m smtpd -n -c DebuggingServer localhost:1025
+```
+* open [Reset Password](http://127.0.0.1:8000/accounts/password_reset/) in browser
+* Enter email address to reset password
+* open terminal to check for email.
+
+### Running the tests
+```
+$ python3 manage.py test
+```
+
