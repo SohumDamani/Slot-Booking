@@ -3,9 +3,14 @@
 
 {%block content%}
 {% if page == 'login' %}
-<div>
-    <form method="POST" action="" class="container mt-5 shadow border p-3 rounded rounded-3">
+<div class="d-flex justify-content-center">
+    <form method="POST" action="" class="container mt-5 shadow border p-3 rounded rounded-3 w-50">
         {% csrf_token %}
+        <div class="alert p-0 my-1">
+            {% if msg %}
+            <strong class="text-danger">{{ msg }}</strong>
+            {% endif %}
+        </div>
         <div class="mb-3">
             <label class="form-label">Username</label>
             <input type="text" class="form-control" name="username" placeholder="Enter Username">
@@ -14,15 +19,26 @@
             <label class="form-label">Password</label>
             <input type="password" name="password" placeholder="Enter Password" class="form-control">
         </div>
-        <input type="submit" class="btn btn-primary btn-sm" value="Login"/>
-        <div class="mt-3">
-            <button class="btn btn-primary btn-sm">
-                <a href="{% url 'manager_signup' %}" class="text-light text-decoration-none">Create Manager Account </a>
-            </button>
-            <button class="btn btn-primary btn-sm">
-                <a href="{% url 'client_signup' %}" class="text-light text-decoration-none"> Create Customer
+        <div class="d-flex justify-content-center">
+            <input type="submit" class="w-100 btn btn-dark btn-sm btn-block" value="Login"/>
+
+        </div>
+        <div class="mt-3 w-100 row">
+
+
+        </div>
+        <div class="row gx-3">
+            <div class="col">
+                <a href="{% url 'manager_signup' %}"
+                   class="w-100 btn btn-outline-dark btn-sm text-decoration-none">Create
+                    Manager Account </a>
+            </div>
+            <div class="col">
+                <a href="{% url 'client_signup' %}"
+                   class="w-100 btn btn-outline-dark btn-sm text-decoration-none">
+                    Create Customer
                     Account </a>
-            </button>
+            </div>
         </div>
     </form>
 </div>
@@ -93,9 +109,9 @@
 
 </div>
 <div class="d-flex justify-content-center align-items-center my-3">
-        <p class=""> Already Signed Up? <a href="{% url 'loginPage' %}" class="btn btn-primary btn-sm ms-2"> Login </a> </p>
+    <p class=""> Already Signed Up? <a href="{% url 'loginPage' %}" class="btn btn-primary btn-sm ms-2"> Login </a></p>
 
-    </div>
+</div>
 
 
 {% endif %}

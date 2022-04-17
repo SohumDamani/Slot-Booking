@@ -1,32 +1,32 @@
 {% extends 'basic.html' %}
 
 {%block content%}
-<div>
-    <h1> Book Time Slot </h1>
-    <div>
-        <form method="POST" action="{% url 'search_result' %}">
-            {% csrf_token %}
-            <div>
-                <Label> Date </Label>
-                <input type="date" name="date" value="{% now 'Y-m-d' %}"> </input>
-            </div>
-            <div>
-                <Label> Start Time </Label>
-                <input type="time" name="start_time" value="12:00"> </input>
-            </div>
-            <div>
-                <Label> End Time </Label>
-                <input type="time" name="end_time" value="15:00"> </input>
-            </div>
-            <input type="submit" class="button btn-success" style="cursor:pointer;" value="Search">
-        </form>
-        <div>
-            <a href="http://127.0.0.1:8000/client/booked-slot/booked-history/">
-                <button>Booked History</button>
-            </a>
-        </div>
+<div class="container d-flex justify-content-center">
 
+    <form method="POST" class=" w-50" action="{% url 'search_result' %}">
+        <h1 class="text-center mb-2"> Book Time Slot </h1>
+        {% csrf_token %}
+        <div>
+            <Label class="form-label mb-2"> Date </Label>
+            <input class="form-control mb-2" type="date" name="date" value="{% now 'Y-m-d' %}"> </input>
+        </div>
+        <div>
+            <Label class="form-label mb-2"> Start Time </Label>
+            <input class="form-control mb-2" type="time" name="start_time" value="12:00"> </input>
+        </div>
+        <div>
+            <Label class="form-label mb-2"> End Time </Label>
+            <input class="form-control mb-2" type="time" name="end_time" value="15:00"> </input>
+        </div>
+        <input type="submit" class="btn btn-sm btn-success mb-2" style="cursor:pointer;" value="Search">
+    </form>
     </div>
-</div>
+    <div class="container d-flex justify-content-center">
+        <a href="{% url 'booked_history' %}">
+            <button class="btn btn-primary btn-sm">Booked History</button>
+        </a>
+    </div>
+
+
 
 {%endblock content%}

@@ -1,35 +1,51 @@
 <a href="/">
 
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/"><h1 >Slot Booking</h1></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><h1>Slot Booking</h1></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if request.user.is_authenticated %}
 
-    </div>
-  </div>
-</nav>
-    {% if request.user.is_authenticated %}
-        <p>{{user.username}} </>
-        <a href="{% url 'logoutPage' %}">Logout </a>
-        {% if request.user.is_manager %}
-        <a href="{% url 'profile_manager' %}">Account</a>
-        {% else %}
-        <a href="{% url 'profile_client' %}">Account</a>
-        {% endif %}
-    {% else %}
-        {% url 'loginPage' as l %}
-        {% url 'manager_signup' as m %}
-        {% url 'client_signup' as c%}
-        {% ifnotequal request.path l %}
-            {% ifnotequal request.path m %}
-                {% ifnotequal request.path c %}
-                    <a href="{% url 'loginPage' %}"> Login  </a>
-                {% endifnotequal %}
-            {% endifnotequal %}
-        {% endifnotequal %}
-    {% endif %}
-        </a>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/">Hi, <strong>{{user.username}}</strong> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logoutPage' %}">Logout</a>
+                    </li>
+                    {% if request.user.is_manager %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile_manager' %}">Account</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile_client' %}">Account</a>
+                    </li>
+                    {% endif %}
+                    {% else %}
+                    {% url 'loginPage' as l %}
+                    {% url 'manager_signup' as m %}
+                    {% url 'client_signup' as c%}
+                    {% ifnotequal request.path l %}
+                    {% ifnotequal request.path m %}
+                    {% ifnotequal request.path c %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'loginPage' %}">Login</a>
+                    </li>
+                    {% endifnotequal %}
+                    {% endifnotequal %}
+                    {% endifnotequal %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+
+</a>

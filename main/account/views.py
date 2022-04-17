@@ -4,11 +4,11 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from manager.models import AdvanceBooking
-from django.db.utils import IntegrityError
 
 
 def loginPage(request):
     page = 'login'
+    msg=''
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -27,8 +27,9 @@ def loginPage(request):
             else:
                 return redirect('home')
         else:
-            messages.error(request,"Username or Password does not match")
-    context={'page':page}
+            msg = "Username or password incorrect"
+
+    context={'page':page,'msg':msg}
     return render(request,'account/login_registration.html',context)
 
 def managerSignUp(request):
@@ -49,8 +50,6 @@ def managerSignUp(request):
             adv = AdvanceBooking.objects.create(manager_id=CustomUser.objects.get(id=user.id))
             login(request,user)
             return redirect('manager')
-        else:
-            print(form.errors)
 
     context = {'page':page,'form':form}
 
@@ -60,9 +59,8 @@ def clientSignUp(request):
     page = 'customer'
     form = UserRegistrationForm()
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        try:
-            form.is_valid()
+        form = UserRegistrationForm(request.POST or None)
+        if form.is_valid():
             print("Yes")
             # to reformat user input
             user = form.save(commit=False)
@@ -72,9 +70,7 @@ def clientSignUp(request):
             user.save()
             login(request,user)
             return redirect('client')
-        except IntegrityError as e:
-            print(form.errors)
-            messages.error(request,f"{e}")
+
 
     context = {'page':page,'form':form}
 
