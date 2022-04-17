@@ -30,7 +30,7 @@ def loginPage(request):
     context={'page':page}
     return render(request,'account/login_registration.html',context)
 
-def ManagerSignUpView(request):
+def managerSignUp(request):
     page = 'manager'
     form = UserRegistrationForm()
     if request.method == 'POST':
@@ -54,7 +54,7 @@ def ManagerSignUpView(request):
 
     return render(request,'account/login_registration.html',context)
 
-def CustomerSignUpView(request):
+def clientSignUp(request):
     page = 'customer'
     form = UserRegistrationForm()
     if request.method == 'POST':
@@ -75,7 +75,6 @@ def CustomerSignUpView(request):
     context = {'page':page,'form':form}
 
     return render(request,'account/login_registration.html',context)
-
 
 def logoutPage(request):
     logout(request)

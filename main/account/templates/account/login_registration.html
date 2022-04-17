@@ -1,5 +1,7 @@
 {% extends 'basic.html' %}
 
+
+
 {%block content%}
 {% if page == 'login' %}
     <div>
@@ -16,7 +18,7 @@
         <hr>
         <a href="{% url 'manager_signup' %}">Create Manager Account </a>
         <hr>
-        <a href="{% url 'customer_signup' %}"> Create Customer Account </a>
+        <a href="{% url 'client_signup' %}"> Create Customer Account </a>
 
     </div>
 {% else %}
