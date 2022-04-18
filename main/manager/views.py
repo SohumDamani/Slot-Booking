@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from manager.decorators import role_required
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
-from client.models import TimeSlotBook
+from client.models import TimeSlotBook,TimeSlotCancel
 from account.models import CustomUser
 
 @login_required
@@ -132,5 +132,6 @@ def deleteTimeSlot(request,pk1,pk2):
 @role_required(allowed=['manager'])
 def bookingHistory(request):
     tsb = TimeSlotBook.objects.filter(manager_id=request.user)
-    context={'bookings':tsb}
+    tsc = TimeSlotCancel.objects.filter(manager_id=request.user)
+    context={'bookings':tsb,'cancel':tsc}
     return render(request,'manager/booking_history.html',context)
