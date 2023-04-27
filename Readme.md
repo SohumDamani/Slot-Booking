@@ -42,11 +42,11 @@ $ pip install -r requirement.txt
 
 3. Change directory to main
 
-$ cd main
-$ python manage.py makemigrations account
-$ python manage.py makemigrations manager
-$ python manage.py makemigrations client
-$ python manage.py migrate
+```cd main```
+```python manage.py makemigrations account``` 
+```python manage.py makemigrations manager```
+```python manage.py makemigrations client```
+```python manage.py migrate```
 
 
 4. Run the application, running on localhost.
