@@ -1,4 +1,4 @@
-# Room-o-rent
+# Slot-booking
 
 Planning to host a meeting or conduct an interview in a private and highly business-like environment?  We have rental meeting room with facilities for a range of requirements. Also, you can book a meeting room by slot basis.
 
